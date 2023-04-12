@@ -177,24 +177,14 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               byte[] decodedString = Base64.getDecoder().decode(img.getBytes("UTF-8"));
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-              // Retrieve the maximum width and height of the paper supported by the printer
-              PrinterInformation printerInfo = mPrinter.getInformation();
+              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1500, true);
+              final int width = resized.getWidth();
+              final int height = resized.getHeight();
+              final int[] argb = new int[width * height];
+              resized.getPixels(argb, 0, width, 0, 0, width, height);
+              resized.recycle();
 
-              // Retrieve the maximum width and height of the paper supported by the printer
-              int maxWidth = 576; // Set the maximum width to 576
-              int maxHeight = 5088; // Set the maximum height to 5088
-
-              int sectionWidth = maxWidth; // Split the image into 1 column
-              int sectionHeight = 500;
-
-              for (int y = 0; y < decodedByte.getHeight(); y += sectionHeight) {
-                int sectionHeightActual = Math.min(sectionHeight, decodedByte.getHeight() - y);
-                Bitmap sectionBitmap = Bitmap.createBitmap(decodedByte, 0, y, maxWidth, sectionHeightActual);
-                final int[] argb = new int[maxWidth * sectionBitmap.getHeight()];
-                sectionBitmap.getPixels(argb, 0, maxWidth, 0, 0, maxWidth, sectionBitmap.getHeight());
-                mPrinter.printImage(argb, maxWidth, sectionBitmap.getHeight(), Printer.ALIGN_CENTER, true);
-                sectionBitmap.recycle();
-              }
+              mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
             }else{
               /*byte[] decodedString = android.util.Base64.decode(img, android.util.Base64.DEFAULT);
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -210,24 +200,14 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               byte[] decodedString = android.util.Base64.decode(img, android.util.Base64.DEFAULT);
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-              // Retrieve the maximum width and height of the paper supported by the printer
-              PrinterInformation printerInfo = mPrinter.getInformation();
+              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1500, true);
+              final int width = resized.getWidth();
+              final int height = resized.getHeight();
+              final int[] argb = new int[width * height];
+              resized.getPixels(argb, 0, width, 0, 0, width, height);
+              resized.recycle();
 
-              // Retrieve the maximum width and height of the paper supported by the printer
-              int maxWidth = 576; // Set the maximum width to 576
-              int maxHeight = 5088; // Set the maximum height to 5088
-
-              int sectionWidth = maxWidth; // Split the image into 1 column
-              int sectionHeight = 500;
-
-              for (int y = 0; y < decodedByte.getHeight(); y += sectionHeight) {
-                int sectionHeightActual = Math.min(sectionHeight, decodedByte.getHeight() - y);
-                Bitmap sectionBitmap = Bitmap.createBitmap(decodedByte, 0, y, maxWidth, sectionHeightActual);
-                final int[] argb = new int[maxWidth * sectionBitmap.getHeight()];
-                sectionBitmap.getPixels(argb, 0, maxWidth, 0, 0, maxWidth, sectionBitmap.getHeight());
-                mPrinter.printImage(argb, maxWidth, sectionBitmap.getHeight(), Printer.ALIGN_CENTER, true);
-                sectionBitmap.recycle();
-              }
+              mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
             }
           }else{
             mPrinter.printTaggedText(args.get(i));
