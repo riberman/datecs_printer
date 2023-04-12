@@ -53,6 +53,20 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<List<String>> getTicketDANFETest() async{
+    final generate = DatecsGenerate(DatecsPaper.mm116);
+
+    ByteData bytes = await rootBundle.load('assets/fd21c5f0-c4e4-11ed-a035-e36013addf54.png');
+    var buffer = bytes.buffer;
+    var m = base64Encode(Uint8List.view(buffer));
+
+    generate.image(m);
+    
+    generate.feed(5);
+
+    return generate.args;
+  }
+
   Future<List<String>> getTicketDatecs({bool withImage = false}) async{
     final generate = DatecsGenerate(DatecsPaper.mm80);
 
@@ -255,8 +269,8 @@ class _MyAppState extends State<MyApp> {
                   ],
                 ),
                 const SizedBox(height: 20,),
-                FlatButton(
-                  color: Theme.of(context).primaryColor,
+                ElevatedButton(
+                  // color: Theme.of(context).primaryColor,
                   onPressed: () async {
                     if(_device == null){
                       Fluttertoast.showToast(msg: "Device not selected");
@@ -323,6 +337,22 @@ class _MyAppState extends State<MyApp> {
                       ),
                       ),
                     )
+                ),
+                const SizedBox(height: 20,),
+                RawMaterialButton(
+                  fillColor: Colors.blue,
+                  onPressed: () async{
+                    List<String> ticket = await getTicketDANFETest();
+                    var result = await DatecsPrinter.printText(ticket);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      'Test Print DANFE TEOREMA', style: TextStyle(
+                      color: Colors.white
+                    ),
+                    ),
+                  )
                 ),
               ],
             ),

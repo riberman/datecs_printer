@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 
 import com.datecs.api.printer.Printer;
 import com.datecs.api.printer.ProtocolAdapter;
+import com.datecs.api.printer.PrinterInformation;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -161,22 +163,71 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             String[] split = args.get(i).split("%2021");
             String img = split[1];
             if(android.os.Build.VERSION.SDK_INT >= 26){
+              /*byte[] decodedString = Base64.getDecoder().decode(img.getBytes("UTF-8"));
+              Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+              Bitmap resized = decodedByte;
+              final int width = resized.getWidth();
+              final int height = resized.getHeight();
+              // Bitmap resized = Bitmap.createScaledBitmap(decodedByte, width, height, true);
+              final int[] argb = new int[width * height];
+              resized.getPixels(argb, 0, width, 0, 0, width, height);
+              resized.recycle();
+              // mPrinter.printImage(argb, width, 2000, Printer.ALIGN_LEFT, true);
+              mPrinter.printImage(argb, width, height, Printer.ALIGN_LEFT, true);*/
               byte[] decodedString = Base64.getDecoder().decode(img.getBytes("UTF-8"));
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 650, 300, true);
-              final int[] argb = new int[650 * 300];
-              resized.getPixels(argb, 0, 650, 0, 0, 650, 300);
-              resized.recycle();
 
-              mPrinter.printImage(argb, 650, 300, Printer.ALIGN_CENTER, true);
+              // Retrieve the maximum width and height of the paper supported by the printer
+              PrinterInformation printerInfo = mPrinter.getInformation();
+
+              // Retrieve the maximum width and height of the paper supported by the printer
+              int maxWidth = 576; // Set the maximum width to 576
+              int maxHeight = 5088; // Set the maximum height to 5088
+
+              int sectionWidth = maxWidth; // Split the image into 1 column
+              int sectionHeight = 500;
+
+              for (int y = 0; y < decodedByte.getHeight(); y += sectionHeight) {
+                int sectionHeightActual = Math.min(sectionHeight, decodedByte.getHeight() - y);
+                Bitmap sectionBitmap = Bitmap.createBitmap(decodedByte, 0, y, maxWidth, sectionHeightActual);
+                final int[] argb = new int[maxWidth * sectionBitmap.getHeight()];
+                sectionBitmap.getPixels(argb, 0, maxWidth, 0, 0, maxWidth, sectionBitmap.getHeight());
+                mPrinter.printImage(argb, maxWidth, sectionBitmap.getHeight(), Printer.ALIGN_CENTER, true);
+                sectionBitmap.recycle();
+              }
             }else{
+              /*byte[] decodedString = android.util.Base64.decode(img, android.util.Base64.DEFAULT);
+              Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+              Bitmap resized = decodedByte;
+              final int width = resized.getWidth();
+              final int height = resized.getHeight();
+              // Bitmap resized = Bitmap.createScaledBitmap(decodedByte, width, height, true);
+              final int[] argb = new int[width * height];
+              resized.getPixels(argb, 0, width, 0, 0, width, height);
+              resized.recycle();
+              // mPrinter.printImage(argb, width, 2000, Printer.ALIGN_LEFT, true);
+              mPrinter.printImage(argb, width, height, Printer.ALIGN_LEFT, true);*/
               byte[] decodedString = android.util.Base64.decode(img, android.util.Base64.DEFAULT);
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 650, 300, true);
-              final int[] argb = new int[650 * 300];
-              resized.getPixels(argb, 0, 650, 0, 0, 650, 300);
-              resized.recycle();
-              mPrinter.printImage(argb, 650, 300, Printer.ALIGN_CENTER, true);
+
+              // Retrieve the maximum width and height of the paper supported by the printer
+              PrinterInformation printerInfo = mPrinter.getInformation();
+
+              // Retrieve the maximum width and height of the paper supported by the printer
+              int maxWidth = 576; // Set the maximum width to 576
+              int maxHeight = 5088; // Set the maximum height to 5088
+
+              int sectionWidth = maxWidth; // Split the image into 1 column
+              int sectionHeight = 500;
+
+              for (int y = 0; y < decodedByte.getHeight(); y += sectionHeight) {
+                int sectionHeightActual = Math.min(sectionHeight, decodedByte.getHeight() - y);
+                Bitmap sectionBitmap = Bitmap.createBitmap(decodedByte, 0, y, maxWidth, sectionHeightActual);
+                final int[] argb = new int[maxWidth * sectionBitmap.getHeight()];
+                sectionBitmap.getPixels(argb, 0, maxWidth, 0, 0, maxWidth, sectionBitmap.getHeight());
+                mPrinter.printImage(argb, maxWidth, sectionBitmap.getHeight(), Printer.ALIGN_CENTER, true);
+                sectionBitmap.recycle();
+              }
             }
           }else{
             mPrinter.printTaggedText(args.get(i));
