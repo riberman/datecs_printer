@@ -186,7 +186,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
               Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1250, true);
-              decodedByte.recycle();
+              // decodedByte.recycle();
               final int width = resized.getWidth();
               final int height = resized.getHeight();
               final int[] argb = new int[width * height];
@@ -199,7 +199,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
               Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1250, true);
-              decodedByte.recycle();
+              // decodedByte.recycle();
               final int width = resized.getWidth();
               final int height = resized.getHeight();
               final int[] argb = new int[width * height];
@@ -216,7 +216,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
               Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1400, true);
-              decodedByte.recycle();
+              // decodedByte.recycle();
               final int width = resized.getWidth();
               final int height = resized.getHeight();
               final int[] argb = new int[width * height];
@@ -229,7 +229,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
               Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1400, true);
-              decodedByte.recycle();
+              // decodedByte.recycle();
               final int width = resized.getWidth();
               final int height = resized.getHeight();
               final int[] argb = new int[width * height];
