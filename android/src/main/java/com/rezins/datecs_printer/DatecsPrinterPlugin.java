@@ -185,7 +185,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               byte[] decodedString = Base64.getDecoder().decode(img.getBytes("UTF-8"));
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1500, true);
+              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1250, true);
               decodedByte.recycle();
               final int width = resized.getWidth();
               final int height = resized.getHeight();
@@ -198,7 +198,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               byte[] decodedString = android.util.Base64.decode(img, android.util.Base64.DEFAULT);
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1500, true);
+              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1250, true);
               decodedByte.recycle();
               final int width = resized.getWidth();
               final int height = resized.getHeight();
@@ -215,7 +215,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               byte[] decodedString = Base64.getDecoder().decode(img.getBytes("UTF-8"));
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1500, true);
+              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1400, true);
               decodedByte.recycle();
               final int width = resized.getWidth();
               final int height = resized.getHeight();
@@ -228,7 +228,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               byte[] decodedString = android.util.Base64.decode(img, android.util.Base64.DEFAULT);
               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1500, true);
+              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1400, true);
               decodedByte.recycle();
               final int width = resized.getWidth();
               final int height = resized.getHeight();
