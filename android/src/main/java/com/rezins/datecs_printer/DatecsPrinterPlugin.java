@@ -178,6 +178,62 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               resized.recycle();
               mPrinter.printImage(argb, 300, 300, Printer.ALIGN_CENTER, true);
             }
+          }else if(args.get(i).contains("img%danfe")){
+            String[] split = args.get(i).split("%danfe");
+            String img = split[1];
+            if(android.os.Build.VERSION.SDK_INT >= 26){
+              byte[] decodedString = Base64.getDecoder().decode(img.getBytes("UTF-8"));
+              Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1500, true);
+              final int width = resized.getWidth();
+              final int height = resized.getHeight();
+              final int[] argb = new int[width * height];
+              resized.getPixels(argb, 0, width, 0, 0, width, height);
+              resized.recycle();
+
+              mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
+            }else{
+              byte[] decodedString = android.util.Base64.decode(img, android.util.Base64.DEFAULT);
+              Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1500, true);
+              final int width = resized.getWidth();
+              final int height = resized.getHeight();
+              final int[] argb = new int[width * height];
+              resized.getPixels(argb, 0, width, 0, 0, width, height);
+              resized.recycle();
+
+              mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
+            }
+          }else if(args.get(i).contains("img%boleto")){
+            String[] split = args.get(i).split("%boleto");
+            String img = split[1];
+            if(android.os.Build.VERSION.SDK_INT >= 26){
+              byte[] decodedString = Base64.getDecoder().decode(img.getBytes("UTF-8"));
+              Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1500, true);
+              final int width = resized.getWidth();
+              final int height = resized.getHeight();
+              final int[] argb = new int[width * height];
+              resized.getPixels(argb, 0, width, 0, 0, width, height);
+              resized.recycle();
+
+              mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
+            }else{
+              byte[] decodedString = android.util.Base64.decode(img, android.util.Base64.DEFAULT);
+              Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+              Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 840, 1500, true);
+              final int width = resized.getWidth();
+              final int height = resized.getHeight();
+              final int[] argb = new int[width * height];
+              resized.getPixels(argb, 0, width, 0, 0, width, height);
+              resized.recycle();
+
+              mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
+            }
           }else{
             mPrinter.printTaggedText(args.get(i));
           }
