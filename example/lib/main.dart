@@ -255,7 +255,7 @@ class _MyAppState extends State<MyApp> {
                   ],
                 ),
                 const SizedBox(height: 20,),
-                FlatButton(
+                MaterialButton(
                   color: Theme.of(context).primaryColor,
                   onPressed: () async {
                     if(_device == null){

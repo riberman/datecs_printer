@@ -88,6 +88,10 @@ class DatecsGenerate{
     args.add("img%boleto"+ base64);
   }
 
+  printDanfe(String text){
+    args.add("print%teste"+ text);
+  }
+
   row(List<DatecsColumn> cols){
     final isSumValid = cols.fold(0, (int sum, col) => sum + col.width) == getDivider();
     if (!isSumValid) {

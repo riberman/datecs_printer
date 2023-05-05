@@ -238,6 +238,48 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
 
               mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
             }
+          }else if(args.get(i).contains("print%teste")){
+            mPrinter.flush();
+            mPrinter.reset();
+            mPrinter.selectPageMode();
+
+            String companyName = "EMPRESA TESTE";
+            String numero = "NUM";
+            String serie = "SERIE";
+
+            mPrinter.setPageRegion(0, 0, 650, 220, Printer.PAGE_LEFT);
+            mPrinter.drawPageFrame(0, 0, 650, 100, Printer.FILL_BLACK, 2);
+            mPrinter.setPageXY(5, 5);
+
+            mPrinter.printTaggedText("{reset}Recebemos de " + companyName + " os produtos constantes da nota fiscal indicada ao lado.{br}");
+            mPrinter.setPageXY(0, 105);
+            mPrinter.printTaggedText("{reset}{center}{b}DATA E HORA DO RECEBIMENTO{br}");
+            mPrinter.drawPageRectangle(0, 100, 650, 32, Printer.FILL_INVERTED);
+            mPrinter.drawPageFrame(0, 100, 650, 120, Printer.FILL_BLACK, 2);
+
+            mPrinter.setPageRegion(650, 0, 150, 220, Printer.PAGE_LEFT);
+            mPrinter.printTaggedText("{reset}{br}{center}{h} 1 - Saida {br}{center}NF-e{br}{center}N " + numero + "{br}{center}Serie " + serie, "UTF-8");
+            mPrinter.drawPageFrame(0, 0, 150, 220, Printer.FILL_BLACK, 2);
+
+            mPrinter.setPageRegion(0, 220, 800, 120, Printer.PAGE_LEFT);
+            mPrinter.setPageXY(0, 5);
+            mPrinter.printTaggedText("{reset}{center}{b}IDENTIFICACAO E ASSINATURA DO RECEBEDOR{br}");
+            mPrinter.drawPageRectangle(0, 0, 800, 32, Printer.FILL_INVERTED);
+            mPrinter.drawPageFrame(0, 0, 800, 120, Printer.FILL_BLACK, 2);
+
+            mPrinter.setPageRegion(0, 340, 800, 32, Printer.PAGE_LEFT);
+            mPrinter.setPageXY(0, 5);
+            mPrinter.printTaggedText("{reset}{b}--------------------------------------------------------------------{br}");
+
+            int y = 372;
+
+            mPrinter.setPageRegion(0, y, 650, 280, Printer.PAGE_LEFT);
+            mPrinter.setPageXY(0, 5);
+            mPrinter.drawPageFrame(0, 0, 650, 280, Printer.FILL_BLACK, 2);
+
+            mPrinter.printPage();
+            mPrinter.flush();
+            mPrinter.reset();
           }else{
             mPrinter.printTaggedText(args.get(i));
           }
