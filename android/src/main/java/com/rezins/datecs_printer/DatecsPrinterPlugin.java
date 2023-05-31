@@ -344,14 +344,14 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             mPrinter.printTaggedText("{reset}{b}--------------------------------------------------------------------{br}");
             int y = 372;
 
-            //REMOVER
-            mPrinter.printPage();
-            mPrinter.flush();
-            mPrinter.reset();
-            mPrinter.selectStandardMode();
-            mPrinter.selectPageMode();
-            mPrinter.flush();
-            //REMOVER
+            // //REMOVER
+            // mPrinter.printPage();
+            // mPrinter.flush();
+            // mPrinter.reset();
+            // mPrinter.selectStandardMode();
+            // mPrinter.selectPageMode();
+            // mPrinter.flush();
+            // //REMOVER
 
             mPrinter.setPageRegion(0, y, 650, 280, Printer.PAGE_LEFT);
             mPrinter.setPageXY(0, 5);
