@@ -243,8 +243,10 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
 
               mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
             }
-          }else if(args.get(i).contains("print%teste")){
-            String jsonString = "{\"data\":{\"id\":\"0018cb00-cc97-11ed-8bce-0242ac1c0002\",\"company_group_id\":\"5e7c3ea1-bbf8-4254-8d7d-8b730d7548ac\",\"created_at\":\"2023-03-27T00:00:00.000000Z\",\"updated_at\":\"2023-03-29T15:59:37.000000Z\",\"ref\":\"495200\",\"xml\":true,\"serie\":\"20\",\"numero\":\"905\",\"chave\":\"41230308168798000197550200000009051248576160\",\"protocolo\":\"141230000199289\",\"natOp\":\"VENDA DE MERCADORIA\",\"dhEmi\":\"26/03/2023\",\"dSaiEnt\":\"--/--/--\",\"hSaiEnt\":\"--:--\",\"bcIcms\":\"\",\"vIcms\":\"\",\"bcIcmsSt\":\"\",\"vIcmsSt\":\"\",\"ttProdutos\":\"36.00\",\"vFrete\":\"0.00\",\"vSeguro\":\"0.00\",\"vDesc\":\"0.00\",\"vOutro\":\"0.00\",\"vIPI\":\"4.32\",\"ttNota\":\"40.32\",\"adicionais\":\"teste DECRETO 001 tesde DECRETO 002  teste OBSERVACAO 001 teste OBSERVACAO 0002  VLR IPI R$4,32 PERMITE O APROVEITAMENTO DO CREDITO DE ICMS NO VALOR DE R$ 0,96 CORRESPONDENTE A ALIQUOTA DE 2,67% NOS TERMOS DO ART. 23 DA LC 123/2006. NF Ref. Pedido No. 0000000950\",\"emitNome\":\"NOME DA EMPRESA FANTASIA\",\"emitEnd\":\"RUA GETULIO VARGASS, 195 Centro CEP: 85010-280 GUARAPUAVA-PR\",\"emitCNPJ\":\"08.168.798/0001-97\",\"emitIe\":\"9041463667\",\"emitTel\":\"42369-5878\",\"destRazao\":\"NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL\",\"destEnd\":\"RUA FREI CANECA, 1713 SANTAN CEP: 85070-170 GUARAPUAVA-PR\",\"destIe\":\"2\",\"produtos\":[{\"cProd\":\"000002\",\"cEAN\":\"SEM GTIN\",\"xProd\":\"NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL\",\"NCM\":\"40081100\",\"CFOP\":\"5102\",\"uCom\":\"UN\",\"qCom\":\"1.0000\",\"vUnCom\":\"36.0000000000\",\"vProd\":\"36.00\",\"cEANTrib\":\"SEM GTIN\",\"uTrib\":\"UN\",\"qTrib\":\"1.0000\",\"vUnTrib\":\"36.0000000000\",\"indTot\":\"1\",\"nItem\":\"1\"}]}}";
+          }else if(args.get(i).contains("print%danfe")){
+            String[] split = args.get(i).split("%danfe");
+            String jsonString = split[1];
+            // String jsonString = "{\"data\":{\"id\":\"0018cb00-cc97-11ed-8bce-0242ac1c0002\",\"company_group_id\":\"5e7c3ea1-bbf8-4254-8d7d-8b730d7548ac\",\"created_at\":\"2023-03-27T00:00:00.000000Z\",\"updated_at\":\"2023-03-29T15:59:37.000000Z\",\"ref\":\"495200\",\"xml\":true,\"serie\":\"20\",\"numero\":\"1424\",\"chave\":\"41230508168798000197550200000014241414369506\",\"protocolo\":\"141230000287242\",\"natOp\":\"VENDA DE MERCADORIA\",\"dhEmi\":\"06/05/2023\",\"dSaiEnt\":\"--/--/--\",\"hSaiEnt\":\"--:--\",\"bcIcms\":\"\",\"vIcms\":\"\",\"bcIcmsSt\":\"\",\"vIcmsSt\":\"\",\"ttProdutos\":\"217.60\",\"vFrete\":\"0.00\",\"vSeguro\":\"0.00\",\"vDesc\":\"0.00\",\"vOutro\":\"0.00\",\"vIPI\":\"0.00\",\"ttNota\":\"217.60\",\"adicionais\":\"NF Ref. Pedido No. 0000002285\",\"emitNome\":\"NOME DA EMPRESA FANTASIA\",\"emitEnd\":\"RUA GETULIO VARGASS, 195 Centro CEP: 85010-280 GUARAPUAVA-PR\",\"emitCNPJ\":\"08.168.798/0001-97\",\"emitIe\":\"9041463667\",\"emitTel\":\"42369-5878\",\"destRazao\":\"NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL\",\"destEnd\":\"RUA CORONEL SALDANHA, 3 CENTRO CEP: 85010-130 GUARAPUAVA-PR\",\"destDocument\":\"713.867.779-00\",\"destIe\":\"9\",\"produtos\":[{\"cProd\":\"100260\",\"cEAN\":\"7896016608766\",\"xProd\":\"NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL\",\"NCM\":\"20098990\",\"CEST\":\"1701100\",\"cBenef\":\"PR830001\",\"CFOP\":\"5102\",\"uCom\":\"UN\",\"qCom\":\"5.0000\",\"vUnCom\":\"7.4900000000\",\"vProd\":\"37.45\",\"cEANTrib\":\"7896016608766\",\"uTrib\":\"UN\",\"qTrib\":\"5.0000\",\"vUnTrib\":\"7.4900000000\",\"indTot\":\"1\",\"nItem\":\"10\",\"CST\":\"-/-\"}],\"faturas\":[{\"nDup\":\"001\",\"dVenc\":\"2023-05-06\",\"vDup\":\"217.60\"}]}}";
 
             String emitNome = "";
             String emitCNPJ = "";
@@ -258,7 +260,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             String natOp = "";
             String destRazao = "";
             String destEnd = "";
-            String detDocument = "";
+            String destDocument = "";
             String destIe = "";
             String emissao = "";
             String dSaiEnt = "";
@@ -279,6 +281,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONObject invoice = jsonObject.getJSONObject("data");
             JSONArray produtosArray = invoice.getJSONArray("produtos");
+            JSONArray faturasArray = invoice.getJSONArray("faturas");
 
             emitNome = invoice.getString("emitNome");
             emitCNPJ = invoice.getString("emitCNPJ");
@@ -343,16 +346,25 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             mPrinter.setPageXY(0, 5);
             mPrinter.drawPageFrame(0, 0, 650, 280, Printer.FILL_BLACK, 2);
 
-            // if (logo != null) {
-            //   Bitmap resized = Bitmap.createScaledBitmap(logo, 200, 144, true);
-            //   final int width = resized.getWidth();
-            //   final int height = resized.getHeight();
-            //   final int[] argb = new int[width * height];
-            //   resized.getPixels(argb, 0, width, 0, 0, width, height);
-            //   resized.recycle();
+            //REMOVER
+            mPrinter.printPage();
+            mPrinter.flush();
+            mPrinter.reset();
+            mPrinter.selectStandardMode();
+            mPrinter.selectPageMode();
+            mPrinter.flush();
+            //REMOVER
+            
+            if (logo != null) {
+              Bitmap resized = Bitmap.createScaledBitmap(logo, 200, 144, true);
+              final int width = resized.getWidth();
+              final int height = resized.getHeight();
+              final int[] argb = new int[width * height];
+              resized.getPixels(argb, 0, width, 0, 0, width, height);
+              resized.recycle();
 
-            //   mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_LEFT, true);
-            // }
+              mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_LEFT, true);
+            }
 
             mPrinter.setPageXY(0, 30);
             mPrinter.printTaggedText("{reset}{br}{right}{h}{w}DANFE SIMPLIFICADO{br}{center}{/w}{s}{right}Documento Auxiliar de Nota Fiscal Eletronica{br}");
@@ -426,6 +438,32 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             mPrinter.printTaggedText("{reset}{center}{b}FATURAS{br}");
             mPrinter.drawPageRectangle(0, 0, 800, 32, Printer.FILL_INVERTED);
             y += 32;
+
+            //REMOVER
+            mPrinter.printPage();
+            mPrinter.flush();
+            mPrinter.reset();
+            mPrinter.selectStandardMode();
+            mPrinter.selectPageMode();
+            mPrinter.flush();
+            //REMOVER
+
+            for (int k = 0; k < faturasArray.length(); k++) {
+              JSONObject fatura = faturasArray.getJSONObject(k);
+
+              mPrinter.setPageRegion(0, y, 800, 32, Printer.PAGE_LEFT);
+              mPrinter.setPageXY(0, 5);
+              String si = String.valueOf(k + 1) + " - " + fatura.getString("dVenc") + " R$ " + fatura.getString("vDup");
+
+              mPrinter.drawPageFrame(0, 0, 800, 32, Printer.FILL_BLACK, 2);
+              if (k + 1 < faturasArray.length()) {
+                  k++;
+                  si += "  |  " + String.valueOf(i + 1) + " - " + fatura.getString("dVenc") + " R$ " + fatura.getString("vDup");
+              }
+              mPrinter.printTaggedText("{reset}{left}" + si + "{br}");
+              y += 32;
+            }
+            y += 15;
 
             mPrinter.printPage();
             mPrinter.flush();
@@ -520,7 +558,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             mPrinter.setPageXY(0, 5);
             mPrinter.printTaggedText("{reset}{center}OUTROS{br}");
             mPrinter.setPageXY(0, 48);
-            mPrinter.printTaggedText("{reset}{right}" + vOutros + "{br}");
+            mPrinter.printTaggedText("{reset}{right}" + vOutro + "{br}");
             x += 120;
 
             mPrinter.setPageRegion(x, y, 120, 74, Printer.PAGE_LEFT);
@@ -529,7 +567,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             mPrinter.setPageXY(0, 5);
             mPrinter.printTaggedText("{reset}{center}V.IPI{br}");
             mPrinter.setPageXY(0, 48);
-            mPrinter.printTaggedText("{reset}{right}" + vIpi + "{br}");
+            mPrinter.printTaggedText("{reset}{right}" + vIPI + "{br}");
             x += 120;
 
             mPrinter.setPageRegion(x, y, 200, 74, Printer.PAGE_LEFT);
@@ -602,11 +640,8 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             mPrinter.drawPageFrame(0, 0, 105, 30, Printer.FILL_BLACK, 2);
             y += 30;
 
-            for (int i = 0; i < produtosArray.length(); i++) {
-                JSONObject produto = produtosArray.getJSONObject(i);
-                
-                String cProd = produto.getString("xProd");
-                System.out.println(cProd);
+            for (int j = 0; j < produtosArray.length(); j++) {
+                JSONObject produto = produtosArray.getJSONObject(j);
 
                  x = 0;
                 mPrinter.setPageRegion(x, y, 40, 30, Printer.PAGE_LEFT);
@@ -615,10 +650,10 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 mPrinter.drawPageFrame(0, 0, 40, 30, Printer.FILL_BLACK, 2);
                 x += 40;
 
-                printer.setPageRegion(x, y, 300, 30, Printer.PAGE_LEFT);
-                printer.setPageXY(0, 5);
-                printer.printTaggedText("{reset}{left}{s}" + produto.getString("xProd")  + "{br}");
-                printer.drawPageFrame(0, 0, 300, 30, Printer.FILL_BLACK, 2);
+                mPrinter.setPageRegion(x, y, 300, 30, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(0, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}" + produto.getString("xProd")  + "{br}");
+                mPrinter.drawPageFrame(0, 0, 300, 30, Printer.FILL_BLACK, 2);
                 x += 300;
 
                 mPrinter.setPageRegion(x, y, 100, 30, Printer.PAGE_LEFT);
@@ -629,7 +664,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
 
                 mPrinter.setPageRegion(x, y, 40, 30, Printer.PAGE_LEFT);
                 mPrinter.setPageXY(0, 5);
-                mPrinter.printTaggedText("{reset}{center}{s}" + products.get(i).getCst() + "{br}");
+                mPrinter.printTaggedText("{reset}{center}{s}" + produto.getString("CST") + "{br}");
                 mPrinter.drawPageFrame(0, 0, 40, 30, Printer.FILL_BLACK, 2);
                 x += 40;
 

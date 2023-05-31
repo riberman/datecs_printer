@@ -88,8 +88,12 @@ class DatecsGenerate{
     args.add("img%boleto"+ base64);
   }
 
-  printDanfe(String text){
-    args.add("print%teste"+ text);
+    printDanfe(String text){
+    args.add("print%danfe"+ text);
+  }
+
+    printBoleto(String text){
+    args.add("print%boleto"+ text);
   }
 
   row(List<DatecsColumn> cols){
