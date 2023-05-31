@@ -342,16 +342,17 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             mPrinter.setPageRegion(0, 340, 800, 32, Printer.PAGE_LEFT);
             mPrinter.setPageXY(0, 5);
             mPrinter.printTaggedText("{reset}{b}--------------------------------------------------------------------{br}");
+            mPrinter.setPageXY(0, 5);
             int y = 372;
 
-            // //REMOVER
-            // mPrinter.printPage();
-            // mPrinter.flush();
-            // mPrinter.reset();
-            // mPrinter.selectStandardMode();
-            // mPrinter.selectPageMode();
-            // mPrinter.flush();
-            // //REMOVER
+            //REMOVER
+            mPrinter.printPage();
+            mPrinter.flush();
+            mPrinter.reset();
+            mPrinter.selectStandardMode();
+            mPrinter.selectPageMode();
+            mPrinter.flush();
+            //REMOVER
 
             mPrinter.setPageRegion(0, y, 650, 280, Printer.PAGE_LEFT);
             mPrinter.setPageXY(0, 5);
@@ -369,7 +370,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 resized.getPixels(argb, 0, width, 0, 0, width, height);
                 resized.recycle();
 
-                mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
+                mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_LEFT, true);
               }else{
                 byte[] decodedString = android.util.Base64.decode(logo, android.util.Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -381,7 +382,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 resized.getPixels(argb, 0, width, 0, 0, width, height);
                 resized.recycle();
 
-                mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
+                mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_LEFT, true);
               }
             }
 
