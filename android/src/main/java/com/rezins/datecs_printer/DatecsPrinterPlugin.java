@@ -279,7 +279,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             String adicionais = "";
             try {
             JSONObject jsonObject = new JSONObject(jsonString);
-            JSONObject invoice = jsonObject.getJSONObject("data");
+            JSONObject invoice = jsonObject;
             JSONArray produtosArray = invoice.getJSONArray("produtos");
             JSONArray faturasArray = invoice.getJSONArray("faturas");
 
