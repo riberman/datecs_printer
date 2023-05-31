@@ -277,6 +277,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             String vIPI = "";
             String ttNota = "";
             String adicionais = "";
+            String logo = "";
             try {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONObject invoice = jsonObject;
@@ -312,6 +313,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             vIPI = invoice.getString("vIPI");
             ttNota = invoice.getString("ttNota");
             adicionais = invoice.getString("adicionais");
+            logo = invoice.getString("company_logo_base64");
             
             mPrinter.flush();
             mPrinter.reset();
@@ -345,6 +347,34 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             mPrinter.setPageRegion(0, y, 650, 280, Printer.PAGE_LEFT);
             mPrinter.setPageXY(0, 5);
             mPrinter.drawPageFrame(0, 0, 650, 280, Printer.FILL_BLACK, 2);
+            
+            if (logo != null) {
+              if(android.os.Build.VERSION.SDK_INT >= 26){
+                byte[] decodedString = Base64.getDecoder().decode(logo.getBytes("UTF-8"));
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 200, 144, true);
+                final int width = resized.getWidth();
+                final int height = resized.getHeight();
+                final int[] argb = new int[width * height];
+                resized.getPixels(argb, 0, width, 0, 0, width, height);
+                resized.recycle();
+
+                mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
+              }else{
+                byte[] decodedString = android.util.Base64.decode(logo, android.util.Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                Bitmap resized = Bitmap.createScaledBitmap(decodedByte, 200, 144, true);
+                final int width = resized.getWidth();
+                final int height = resized.getHeight();
+                final int[] argb = new int[width * height];
+                resized.getPixels(argb, 0, width, 0, 0, width, height);
+                resized.recycle();
+
+                mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_CENTER, true);
+              }
+            }
 
             //REMOVER
             mPrinter.printPage();
@@ -354,17 +384,6 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             mPrinter.selectPageMode();
             mPrinter.flush();
             //REMOVER
-            
-            if (logo != null) {
-              Bitmap resized = Bitmap.createScaledBitmap(logo, 200, 144, true);
-              final int width = resized.getWidth();
-              final int height = resized.getHeight();
-              final int[] argb = new int[width * height];
-              resized.getPixels(argb, 0, width, 0, 0, width, height);
-              resized.recycle();
-
-              mPrinter.printCompressedImage(argb, width, height, Printer.ALIGN_LEFT, true);
-            }
 
             mPrinter.setPageXY(0, 30);
             mPrinter.printTaggedText("{reset}{br}{right}{h}{w}DANFE SIMPLIFICADO{br}{center}{/w}{s}{right}Documento Auxiliar de Nota Fiscal Eletronica{br}");
