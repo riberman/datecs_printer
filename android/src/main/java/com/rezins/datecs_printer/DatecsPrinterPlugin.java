@@ -342,7 +342,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
             mPrinter.setPageRegion(0, 340, 800, 32, Printer.PAGE_LEFT);
             mPrinter.setPageXY(0, 5);
             mPrinter.printTaggedText("{reset}{b}--------------------------------------------------------------------{br}");
-            mPrinter.setPageXY(0, 5);
+            mPrinter.feedPaper(5);
             int y = 372;
 
             //REMOVER
