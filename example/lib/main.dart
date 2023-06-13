@@ -184,6 +184,17 @@ class _MyAppState extends State<MyApp> {
     return generate.args;
   }
 
+
+  Future<List<String>> getPrintBoletos() async{
+    final generate = DatecsGenerate(DatecsPaper.mm80);
+
+    generate.printBoletos("");
+    
+    generate.feed(2);
+
+    return generate.args;
+  }
+
   _getListBluetooth()async{
     List<dynamic> list = await DatecsPrinter.getListBluetoothDevice;
     List<DatecsDevice> listOfDevice = [];
@@ -338,13 +349,13 @@ class _MyAppState extends State<MyApp> {
                 RawMaterialButton(
                     fillColor: Colors.blue,
                     onPressed: () async{
-                      List<String> ticket = await getPrintDatecs();
+                      List<String> ticket = await getPrintBoletos();
                       var result = await DatecsPrinter.printText(ticket);
                     },
                     child: const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        'Test Print DANFE', style: TextStyle(
+                        'Test Print BOLETOS', style: TextStyle(
                           color: Colors.white
                       ),
                       ),

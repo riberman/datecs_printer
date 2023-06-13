@@ -92,8 +92,8 @@ class DatecsGenerate{
     args.add("print%danfe"+ text);
   }
 
-    printBoleto(String text){
-    args.add("print%boleto"+ text);
+    printBoletos(String text){
+    args.add("print%boletos"+ text);
   }
 
   row(List<DatecsColumn> cols){
