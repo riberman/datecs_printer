@@ -743,8 +743,17 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               JSONArray installmentsArray = data.getJSONArray("installments");
               logo = data.getString("bank_logo");
 
-              mPrinter.reset();
+              // mPrinter.reset();
               for (int j = 0; j < installmentsArray.length(); j++) {
+                //REMOVER
+                mPrinter.printPage();
+                mPrinter.flush();
+                mPrinter.reset();
+                mPrinter.selectStandardMode();
+                mPrinter.selectPageMode();
+                mPrinter.flush();
+                //REMOVER
+
                 JSONObject installment = installmentsArray.getJSONObject(j);
 
                  mPrinter.selectPageMode();
