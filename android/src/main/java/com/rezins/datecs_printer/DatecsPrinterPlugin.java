@@ -868,11 +868,14 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                           "caracteristicas descritas neste Comprovante de Entrega{br}");
                   mPrinter.drawPageFrame(0, 0, 244, 100, Printer.FILL_BLACK, 2);
 
+                  //REMOVER
                   mPrinter.printPage();
                   mPrinter.flush();
+                  mPrinter.reset();
                   mPrinter.selectStandardMode();
-
                   mPrinter.selectPageMode();
+                  mPrinter.flush();
+                  //REMOVER
 
                   mPrinter.setPageRegion(0, 20, 720, 30, Printer.PAGE_LEFT);
                   mPrinter.setPageXY(155, 5);
@@ -1018,11 +1021,14 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
 
                   y = 0;
 
+                  //REMOVER
                   mPrinter.printPage();
                   mPrinter.flush();
+                  mPrinter.reset();
                   mPrinter.selectStandardMode();
-
                   mPrinter.selectPageMode();
+                  mPrinter.flush();
+                  //REMOVER
 
                   //logo
                   y += 20;
@@ -1244,6 +1250,8 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                   }
 
                   mPrinter.printPage();
+                  mPrinter.flush();
+                  mPrinter.reset();
                   mPrinter.selectStandardMode();
                   mPrinter.feedPaper(110);
                   mPrinter.flush();
