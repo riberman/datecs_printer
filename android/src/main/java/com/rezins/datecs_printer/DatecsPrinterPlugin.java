@@ -744,11 +744,12 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               logo = data.getString("bank_logo");
 
               mPrinter.reset();
+              mPrinter.selectPageMode();
               for (int j = 0; j < installmentsArray.length(); j++) {
                 //REMOVER
-                mPrinter.selectPageMode();
-                mPrinter.flush();
-                mPrinter.printPage();
+                // mPrinter.selectPageMode();
+                // mPrinter.flush();
+                // mPrinter.printPage();
                 //REMOVER
 
                 JSONObject installment = installmentsArray.getJSONObject(j);
@@ -865,8 +866,8 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 mPrinter.drawPageFrame(0, 0, 244, 100, Printer.FILL_BLACK, 2);
 
                 //REMOVER
-                mPrinter.flush();
-                mPrinter.printPage();
+                // mPrinter.flush();
+                // mPrinter.printPage();
                 //REMOVER
 
                 mPrinter.setPageRegion(0, 20, 720, 30, Printer.PAGE_LEFT);
@@ -1014,8 +1015,8 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 y = 0;
 
                 //REMOVER
-                mPrinter.flush();
-                mPrinter.printPage();
+                // mPrinter.flush();
+                // mPrinter.printPage();
                 //REMOVER
 
                 //logo
