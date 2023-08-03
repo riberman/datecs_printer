@@ -743,10 +743,9 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               JSONArray installmentsArray = data.getJSONArray("installments");
               logo = data.getString("bank_logo");
 
-              // mPrinter.reset();
+              mPrinter.reset();
               for (int j = 0; j < installmentsArray.length(); j++) {
                 //REMOVER
-                mPrinter.reset();
                 mPrinter.selectPageMode();
                 mPrinter.flush();
                 mPrinter.printPage();
@@ -754,496 +753,495 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
 
                 JSONObject installment = installmentsArray.getJSONObject(j);
 
-                 mPrinter.selectPageMode();
-                  int y = 0;
-                  //logo
-                  mPrinter.setPageRegion(50, 0, 270, 70, Printer.PAGE_LEFT);
+                int y = 0;
+                //logo
+                mPrinter.setPageRegion(50, 0, 270, 70, Printer.PAGE_LEFT);
 
-                  if (logo != null) {
-                    if(android.os.Build.VERSION.SDK_INT >= 26){
-                      byte[] decodedString = Base64.getDecoder().decode(logo.getBytes("UTF-8"));
-                      Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                if (logo != null) {
+                  if(android.os.Build.VERSION.SDK_INT >= 26){
+                    byte[] decodedString = Base64.getDecoder().decode(logo.getBytes("UTF-8"));
+                    Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                      final int wid = bitm.getWidth();
-                      final int heig = bitm.getHeight();
-                      final int[] ar = new int[wid * heig];
-                      bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
-                      bitm.recycle();
+                    final int wid = bitm.getWidth();
+                    final int heig = bitm.getHeight();
+                    final int[] ar = new int[wid * heig];
+                    bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
+                    bitm.recycle();
 
-                      mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
-                    }else{
-                      byte[] decodedString = android.util.Base64.decode(logo, android.util.Base64.DEFAULT);
-                      Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
+                  }else{
+                    byte[] decodedString = android.util.Base64.decode(logo, android.util.Base64.DEFAULT);
+                    Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                      final int wid = bitm.getWidth();
-                      final int heig = bitm.getHeight();
-                      final int[] ar = new int[wid * heig];
-                      bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
-                      bitm.recycle();
+                    final int wid = bitm.getWidth();
+                    final int heig = bitm.getHeight();
+                    final int[] ar = new int[wid * heig];
+                    bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
+                    bitm.recycle();
 
-                      mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
-                    }
+                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
                   }
-                  y += 270;
+                }
+                y += 270;
 
-                  //numero banco
-                  mPrinter.setPageRegion(310, 0, 700, 70, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(8, 18);
-                  mPrinter.drawPageFrame(0, 0, 150, 74, Printer.FILL_BLACK, 2);
-                  mPrinter.printTaggedText("{reset}{left}{b}{w}{h}" + data.getString("bank_code") + "-" + data.getString("bank_digit") + "{reset}{h}{b}   COMPROVANTE DE ENTREGA{br}");
+                //numero banco
+                mPrinter.setPageRegion(310, 0, 700, 70, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(8, 18);
+                mPrinter.drawPageFrame(0, 0, 150, 74, Printer.FILL_BLACK, 2);
+                mPrinter.printTaggedText("{reset}{left}{b}{w}{h}" + data.getString("bank_code") + "-" + data.getString("bank_digit") + "{reset}{h}{b}   COMPROVANTE DE ENTREGA{br}");
 
-                  //Benificiario
-                  mPrinter.setPageRegion(30, 70, 780, 63, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Benificiario{br}");
-                  mPrinter.drawPageFrame(0, 0, 780, 63, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{left}{h}{s}" + installment.getString("recipient") + " - CNPJ: " + installment.getString("cnpj") + "{br}");
+                //Benificiario
+                mPrinter.setPageRegion(30, 70, 780, 63, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Benificiario{br}");
+                mPrinter.drawPageFrame(0, 0, 780, 63, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{left}{h}{s}" + installment.getString("recipient") + " - CNPJ: " + installment.getString("cnpj") + "{br}");
 
-                  //Pagador
-                  mPrinter.setPageRegion(30, 131, 780, 63, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Pagador{br}");
-                  mPrinter.drawPageFrame(0, 0, 780, 63, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{left}{h}{s}" + installment.getString("paying_name") + " - CPF/CNPJ: " + installment.getString("document_client") + "{br}");
+                //Pagador
+                mPrinter.setPageRegion(30, 131, 780, 63, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Pagador{br}");
+                mPrinter.drawPageFrame(0, 0, 780, 63, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{left}{h}{s}" + installment.getString("paying_name") + " - CPF/CNPJ: " + installment.getString("document_client") + "{br}");
 
-                  mPrinter.setPageRegion(30, 192, 150, 63, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Data Documento{br}");
-                  mPrinter.drawPageFrame(0, 0, 150, 63, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("financial_emission") + " {br}");
+                mPrinter.setPageRegion(30, 192, 150, 63, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Data Documento{br}");
+                mPrinter.drawPageFrame(0, 0, 150, 63, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("financial_emission") + " {br}");
 
-                  //Numero do Documento
-                  mPrinter.setPageRegion(178, 192, 150, 63, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}N. Documento{br}");
-                  mPrinter.drawPageFrame(0, 0, 150, 63, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("financial_document") + " {br}");
+                //Numero do Documento
+                mPrinter.setPageRegion(178, 192, 150, 63, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}N. Documento{br}");
+                mPrinter.drawPageFrame(0, 0, 150, 63, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("financial_document") + " {br}");
 
-                  //NVencimento
-                  mPrinter.setPageRegion(326, 192, 140, 63, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Vencimento{br}");
-                  mPrinter.drawPageFrame(0, 0, 140, 63, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("due") + " {br}");
+                //NVencimento
+                mPrinter.setPageRegion(326, 192, 140, 63, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Vencimento{br}");
+                mPrinter.drawPageFrame(0, 0, 140, 63, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("due") + " {br}");
 
-                  //Agencia/Cod.Beneficiario
-                  mPrinter.setPageRegion(464, 192, 180, 63, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Nosso Numero{br}");
-                  mPrinter.drawPageFrame(0, 0, 180, 63, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("detail_our_number") + "-" + installment.getString("cod_num") + " {br}");
+                //Agencia/Cod.Beneficiario
+                mPrinter.setPageRegion(464, 192, 180, 63, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Nosso Numero{br}");
+                mPrinter.drawPageFrame(0, 0, 180, 63, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("detail_our_number") + "-" + installment.getString("cod_num") + " {br}");
 
-                  //Valor Documento
-                  mPrinter.setPageRegion(642, 192, 168, 63, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Valor Documento{br}");
-                  mPrinter.drawPageFrame(0, 0, 168, 63, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("document_value") + " {br}");
+                //Valor Documento
+                mPrinter.setPageRegion(642, 192, 168, 63, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Valor Documento{br}");
+                mPrinter.drawPageFrame(0, 0, 168, 63, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("document_value") + " {br}");
 
-                  //Assinatura
-                  mPrinter.setPageRegion(30, 253, 270, 100, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Assinatura{br}");
-                  mPrinter.drawPageFrame(0, 0, 270, 100, Printer.FILL_BLACK, 2);
+                //Assinatura
+                mPrinter.setPageRegion(30, 253, 270, 100, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Assinatura{br}");
+                mPrinter.drawPageFrame(0, 0, 270, 100, Printer.FILL_BLACK, 2);
 
-                  //Data Recebimento
-                  mPrinter.setPageRegion(298, 253, 270, 100, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Data Recebimento{br}");
-                  mPrinter.drawPageFrame(0, 0, 270, 100, Printer.FILL_BLACK, 2);
+                //Data Recebimento
+                mPrinter.setPageRegion(298, 253, 270, 100, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Data Recebimento{br}");
+                mPrinter.drawPageFrame(0, 0, 270, 100, Printer.FILL_BLACK, 2);
 
-                  //Dados
-                  mPrinter.setPageRegion(566, 253, 244, 100, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Recebi(emos) o bloqueto de cobranca com as " +
-                          "caracteristicas descritas neste Comprovante de Entrega{br}");
-                  mPrinter.drawPageFrame(0, 0, 244, 100, Printer.FILL_BLACK, 2);
+                //Dados
+                mPrinter.setPageRegion(566, 253, 244, 100, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Recebi(emos) o bloqueto de cobranca com as " +
+                        "caracteristicas descritas neste Comprovante de Entrega{br}");
+                mPrinter.drawPageFrame(0, 0, 244, 100, Printer.FILL_BLACK, 2);
 
-                  //REMOVER
-                  mPrinter.flush();
-                  mPrinter.printPage();
-                  //REMOVER
+                //REMOVER
+                mPrinter.flush();
+                mPrinter.printPage();
+                //REMOVER
 
-                  mPrinter.setPageRegion(0, 20, 720, 30, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(155, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}{w}{h}RECIBO DO PAGADOR{br}");
-                  y = 50;
-                  //logo
-                  mPrinter.setPageRegion(720, y, 70, 270, Printer.PAGE_TOP);
-                  if (logo != null) {
-                    if(android.os.Build.VERSION.SDK_INT >= 26){
-                      byte[] decodedString = Base64.getDecoder().decode(logo.getBytes("UTF-8"));
-                      Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                mPrinter.setPageRegion(0, 20, 720, 30, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(155, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}{w}{h}RECIBO DO PAGADOR{br}");
+                y = 50;
+                //logo
+                mPrinter.setPageRegion(720, y, 70, 270, Printer.PAGE_TOP);
+                if (logo != null) {
+                  if(android.os.Build.VERSION.SDK_INT >= 26){
+                    byte[] decodedString = Base64.getDecoder().decode(logo.getBytes("UTF-8"));
+                    Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                      final int wid = bitm.getWidth();
-                      final int heig = bitm.getHeight();
-                      final int[] ar = new int[wid * heig];
-                      bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
-                      bitm.recycle();
+                    final int wid = bitm.getWidth();
+                    final int heig = bitm.getHeight();
+                    final int[] ar = new int[wid * heig];
+                    bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
+                    bitm.recycle();
 
-                      mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
-                    }else{
-                      byte[] decodedString = android.util.Base64.decode(logo, android.util.Base64.DEFAULT);
-                      Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
+                  }else{
+                    byte[] decodedString = android.util.Base64.decode(logo, android.util.Base64.DEFAULT);
+                    Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                      final int wid = bitm.getWidth();
-                      final int heig = bitm.getHeight();
-                      final int[] ar = new int[wid * heig];
-                      bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
-                      bitm.recycle();
+                    final int wid = bitm.getWidth();
+                    final int heig = bitm.getHeight();
+                    final int[] ar = new int[wid * heig];
+                    bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
+                    bitm.recycle();
 
-                      mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
-                    }
+                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
                   }
-                  y += 270;
-                  //numero banco
-                  mPrinter.setPageRegion(718, y, 70, 190, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 18);
-                  mPrinter.drawPageFrame(0, 0, 74, 194, Printer.FILL_BLACK, 2);
-                  mPrinter.printTaggedText("{reset}{center}{b}{w}{h}" + data.getString("bank_code") + "-" + data.getString("bank_digit") + "{br}");
-                  y = 50;
-                  //comprovante sacado
-                  //pagador
-                  mPrinter.setPageRegion(0, y, 720, 63, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(155, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Pagador{br}");
-                  mPrinter.drawPageFrame(150, 0, 570, 65, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(155, 33);
-                  mPrinter.printTaggedText("{reset}{left}{h}{s}" + installment.getString("paying_name") + " - CNPJ: " + installment.getString("document_client") + "{br}");
-                  y += 63;
-                  //Id documento
-                  mPrinter.setPageRegion(657, y, 63, 172, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Id. Documento{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 174, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("financial_document") + " {br}");
-                  y += 172;
-                  //numero documento
-                  mPrinter.setPageRegion(657, y, 63, 225, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Numero Documento{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 225, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("financial_document") + " {br}");
-                  y = 113;
-                  //Agencia codigo cedente
-                  mPrinter.setPageRegion(594, y, 63, 235, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Agencia / Codigo Cedente{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 237, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s}" + data.getString("agency") + "/" + data.getString("number_account") + "-" + installment.getString("recipient_two") + " {br}");
-                  y += 235;
-                  //Vencimento
-                  mPrinter.setPageRegion(594, y, 63, 162, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Vencimento{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 162, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("due") + " {br}");
-                  y = 113;
-                  //Nosso numero
-                  mPrinter.setPageRegion(531, y, 63, 397, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Nosso Numero{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 397, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("detail_our_number") + "-" + installment.getString("cod_num") + " {br}");
-                  y = 113;
-                  //Especie
-                  mPrinter.setPageRegion(468, y, 63, 100, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Especie{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 102, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s} DM {br}");
-                  y += 100;
-                  //Valor
-                  mPrinter.setPageRegion(468, y, 63, 297, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Valor Documento{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 297, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("document_value") + " {br}");
-                  y = 113;
-                  //QR-Code
-                  mPrinter.setPageRegion(214, y, 254, 195, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}QR Linha Digitavel{br}");
-                  mPrinter.drawPageFrame(0, 0, 256, 197, Printer.FILL_BLACK, 2);
-                  mPrinter.setBarcode(Printer.ALIGN_CENTER, true, 2, Printer.HRI_NONE, 170);
-                  mPrinter.printQRCode(9, 3, installment.getString("barcode"));
-                  mPrinter.feedPaper(38);
-                  y += 195;
-                  //Desconto
-                  mPrinter.setPageRegion(405, y, 63, 202, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}(-) Desc/Abatimentos{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 202, Printer.FILL_BLACK, 2);
-                  //Outras deducoes
-                  mPrinter.setPageRegion(342, y, 63, 202, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}(-) Outras Deducoes{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 202, Printer.FILL_BLACK, 2);
-                  //Multa
-                  mPrinter.setPageRegion(279, y, 64, 202, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}(+) Multa/Mora{br}");
-                  mPrinter.drawPageFrame(0, 0, 66, 202, Printer.FILL_BLACK, 2);
-                  //Outros acrecimos
-                  mPrinter.setPageRegion(214, y, 65, 202, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}(+) Outros Acrescimos{br}");
-                  mPrinter.drawPageFrame(0, 0, 66, 202, Printer.FILL_BLACK, 2);
-                  y = 113;
-                  //Valor cobrado
-                  mPrinter.setPageRegion(150, y, 65, 397, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}(=) Valor Cobrado{br}");
-                  mPrinter.drawPageFrame(0, 0, 68, 397, Printer.FILL_BLACK, 2);
+                }
+                y += 270;
+                //numero banco
+                mPrinter.setPageRegion(718, y, 70, 190, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 18);
+                mPrinter.drawPageFrame(0, 0, 74, 194, Printer.FILL_BLACK, 2);
+                mPrinter.printTaggedText("{reset}{center}{b}{w}{h}" + data.getString("bank_code") + "-" + data.getString("bank_digit") + "{br}");
+                y = 50;
+                //comprovante sacado
+                //pagador
+                mPrinter.setPageRegion(0, y, 720, 63, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(155, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Pagador{br}");
+                mPrinter.drawPageFrame(150, 0, 570, 65, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(155, 33);
+                mPrinter.printTaggedText("{reset}{left}{h}{s}" + installment.getString("paying_name") + " - CNPJ: " + installment.getString("document_client") + "{br}");
+                y += 63;
+                //Id documento
+                mPrinter.setPageRegion(657, y, 63, 172, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Id. Documento{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 174, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("financial_document") + " {br}");
+                y += 172;
+                //numero documento
+                mPrinter.setPageRegion(657, y, 63, 225, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Numero Documento{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 225, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("financial_document") + " {br}");
+                y = 113;
+                //Agencia codigo cedente
+                mPrinter.setPageRegion(594, y, 63, 235, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Agencia / Codigo Cedente{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 237, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s}" + data.getString("agency") + "/" + data.getString("number_account") + "-" + installment.getString("recipient_two") + " {br}");
+                y += 235;
+                //Vencimento
+                mPrinter.setPageRegion(594, y, 63, 162, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Vencimento{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 162, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("due") + " {br}");
+                y = 113;
+                //Nosso numero
+                mPrinter.setPageRegion(531, y, 63, 397, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Nosso Numero{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 397, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("detail_our_number") + "-" + installment.getString("cod_num") + " {br}");
+                y = 113;
+                //Especie
+                mPrinter.setPageRegion(468, y, 63, 100, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Especie{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 102, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s} DM {br}");
+                y += 100;
+                //Valor
+                mPrinter.setPageRegion(468, y, 63, 297, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Valor Documento{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 297, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("document_value") + " {br}");
+                y = 113;
+                //QR-Code
+                mPrinter.setPageRegion(214, y, 254, 195, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}QR Linha Digitavel{br}");
+                mPrinter.drawPageFrame(0, 0, 256, 197, Printer.FILL_BLACK, 2);
+                mPrinter.setBarcode(Printer.ALIGN_CENTER, true, 2, Printer.HRI_NONE, 170);
+                mPrinter.printQRCode(9, 3, installment.getString("barcode"));
+                mPrinter.feedPaper(38);
+                y += 195;
+                //Desconto
+                mPrinter.setPageRegion(405, y, 63, 202, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}(-) Desc/Abatimentos{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 202, Printer.FILL_BLACK, 2);
+                //Outras deducoes
+                mPrinter.setPageRegion(342, y, 63, 202, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}(-) Outras Deducoes{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 202, Printer.FILL_BLACK, 2);
+                //Multa
+                mPrinter.setPageRegion(279, y, 64, 202, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}(+) Multa/Mora{br}");
+                mPrinter.drawPageFrame(0, 0, 66, 202, Printer.FILL_BLACK, 2);
+                //Outros acrecimos
+                mPrinter.setPageRegion(214, y, 65, 202, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}(+) Outros Acrescimos{br}");
+                mPrinter.drawPageFrame(0, 0, 66, 202, Printer.FILL_BLACK, 2);
+                y = 113;
+                //Valor cobrado
+                mPrinter.setPageRegion(150, y, 65, 397, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}(=) Valor Cobrado{br}");
+                mPrinter.drawPageFrame(0, 0, 68, 397, Printer.FILL_BLACK, 2);
 
-                  mPrinter.setPageRegion(0, 435, 830, 60, Printer.PAGE_LEFT);
-                  mPrinter.setPageXY(0, 20);
+                mPrinter.setPageRegion(0, 435, 830, 60, Printer.PAGE_LEFT);
+                mPrinter.setPageXY(0, 20);
 
-                  y = 0;
+                y = 0;
 
-                  //REMOVER
-                  mPrinter.flush();
-                  mPrinter.printPage();
-                  //REMOVER
+                //REMOVER
+                mPrinter.flush();
+                mPrinter.printPage();
+                //REMOVER
 
-                  //logo
-                  y += 20;
-                  mPrinter.setPageRegion(720, y, 70, 270, Printer.PAGE_TOP);
-                  if (logo != null) {
-                    if(android.os.Build.VERSION.SDK_INT >= 26){
-                      byte[] decodedString = Base64.getDecoder().decode(logo.getBytes("UTF-8"));
-                      Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                //logo
+                y += 20;
+                mPrinter.setPageRegion(720, y, 70, 270, Printer.PAGE_TOP);
+                if (logo != null) {
+                  if(android.os.Build.VERSION.SDK_INT >= 26){
+                    byte[] decodedString = Base64.getDecoder().decode(logo.getBytes("UTF-8"));
+                    Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                      final int wid = bitm.getWidth();
-                      final int heig = bitm.getHeight();
-                      final int[] ar = new int[wid * heig];
-                      bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
-                      bitm.recycle();
+                    final int wid = bitm.getWidth();
+                    final int heig = bitm.getHeight();
+                    final int[] ar = new int[wid * heig];
+                    bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
+                    bitm.recycle();
 
-                      mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
-                    }else{
-                      byte[] decodedString = android.util.Base64.decode(logo, android.util.Base64.DEFAULT);
-                      Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
+                  }else{
+                    byte[] decodedString = android.util.Base64.decode(logo, android.util.Base64.DEFAULT);
+                    Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                      final int wid = bitm.getWidth();
-                      final int heig = bitm.getHeight();
-                      final int[] ar = new int[wid * heig];
-                      bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
-                      bitm.recycle();
+                    final int wid = bitm.getWidth();
+                    final int heig = bitm.getHeight();
+                    final int[] ar = new int[wid * heig];
+                    bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
+                    bitm.recycle();
 
-                      mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
-                    }
+                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
                   }
-                  //numero banco
-                  mPrinter.setPageRegion(718, 300, 70, 190, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 18);
-                  mPrinter.drawPageFrame(0, 0, 74, 194, Printer.FILL_BLACK, 2);
-                  mPrinter.printTaggedText("{reset}{center}{b}{w}{h}" + data.getString("bank_code") + "-" + data.getString("bank_digit") + "{br}");
-                  y = 230;
-                  //chave
-                  mPrinter.setPageRegion(718, 300 + 190, 70, 1000, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.drawPageFrame(0, 0, 74, 1010, Printer.FILL_BLACK, 2);
-                  mPrinter.printTaggedText("{reset}{left}{w}{s}{h}" + installment.getString("line") + installment.getString("line_two") + "{br}");
+                }
+                //numero banco
+                mPrinter.setPageRegion(718, 300, 70, 190, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 18);
+                mPrinter.drawPageFrame(0, 0, 74, 194, Printer.FILL_BLACK, 2);
+                mPrinter.printTaggedText("{reset}{center}{b}{w}{h}" + data.getString("bank_code") + "-" + data.getString("bank_digit") + "{br}");
+                y = 230;
+                //chave
+                mPrinter.setPageRegion(718, 300 + 190, 70, 1000, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.drawPageFrame(0, 0, 74, 1010, Printer.FILL_BLACK, 2);
+                mPrinter.printTaggedText("{reset}{left}{w}{s}{h}" + installment.getString("line") + installment.getString("line_two") + "{br}");
 
-                  //Local pagamento
-                  mPrinter.setPageRegion(657, 30, 63, 1150, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Local Pagamento{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 1150, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{left}{h}{s}ATE O VENCIMENTO, PAGAVEL EM QUALQUER BANCO.{br}");
+                //Local pagamento
+                mPrinter.setPageRegion(657, 30, 63, 1150, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Local Pagamento{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 1150, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{left}{h}{s}ATE O VENCIMENTO, PAGAVEL EM QUALQUER BANCO.{br}");
 
-                  //Vencimento
-                  mPrinter.setPageRegion(657, 1178, 63, 320, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Vencimento{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 320, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("due") + " {br}");
+                //Vencimento
+                mPrinter.setPageRegion(657, 1178, 63, 320, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Vencimento{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 320, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("due") + " {br}");
 
-                  //Beneficiario
-                  mPrinter.setPageRegion(596, 30, 63, 1150, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Beneficiario{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 1150, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{left}{h}{s}" + installment.getString("recipient") + " - CNPJ: " + installment.getString("cnpj") + " {br}");
+                //Beneficiario
+                mPrinter.setPageRegion(596, 30, 63, 1150, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Beneficiario{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 1150, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{left}{h}{s}" + installment.getString("recipient") + " - CNPJ: " + installment.getString("cnpj") + " {br}");
 
-                  //Agencia / Codigo Cedente
-                  mPrinter.setPageRegion(596, 1178, 63, 320, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Agencia / Codigo Cedente{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 320, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s}" + data.getString("agency") + "/" + data.getString("number_account") + "-" + installment.getString("recipient_two") + " {br}");
+                //Agencia / Codigo Cedente
+                mPrinter.setPageRegion(596, 1178, 63, 320, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Agencia / Codigo Cedente{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 320, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s}" + data.getString("agency") + "/" + data.getString("number_account") + "-" + installment.getString("recipient_two") + " {br}");
 
-                  //Data do Documento
-                  mPrinter.setPageRegion(535, 30, 63, 200, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Data do Documento{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 202, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
+                //Data do Documento
+                mPrinter.setPageRegion(535, 30, 63, 200, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Data do Documento{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 202, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
 
-                  mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("financial_emission") + " {br}");
-                  y = 30 + 200;
+                mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("financial_emission") + " {br}");
+                y = 30 + 200;
 
-                  //Numero do Documento
-                  mPrinter.setPageRegion(535, y, 63, 350, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Numero do Documento{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 352, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("financial_document") + " {br}");
-                  y += 350;
+                //Numero do Documento
+                mPrinter.setPageRegion(535, y, 63, 350, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Numero do Documento{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 352, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("financial_document") + " {br}");
+                y += 350;
 
-                  //Especie do Documento
-                  mPrinter.setPageRegion(535, y, 63, 200, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Especie do Documento{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 202, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{center}{h}{s} DM {br}");
-                  y += 200;
+                //Especie do Documento
+                mPrinter.setPageRegion(535, y, 63, 200, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Especie do Documento{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 202, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{center}{h}{s} DM {br}");
+                y += 200;
 
-                  //Aceite
-                  mPrinter.setPageRegion(535, y, 63, 200, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Aceite{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 202, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{center}{h}{s} N {br}");
-                  y += 200;
+                //Aceite
+                mPrinter.setPageRegion(535, y, 63, 200, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Aceite{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 202, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{center}{h}{s} N {br}");
+                y += 200;
 
-                  //Data Processamento
-                  mPrinter.setPageRegion(535, y, 63, 200, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Data Processamento{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 202, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("current_date") + " {br}");
+                //Data Processamento
+                mPrinter.setPageRegion(535, y, 63, 200, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Data Processamento{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 202, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{center}{h}{s}" + installment.getString("current_date") + " {br}");
 
-                  //Nosso Numero
-                  mPrinter.setPageRegion(535, 1178, 63, 320, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Nosso Numero{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 320, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("detail_our_number") + " {br}");
+                //Nosso Numero
+                mPrinter.setPageRegion(535, 1178, 63, 320, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Nosso Numero{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 320, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("detail_our_number") + " {br}");
 
-                  //Uso Banco
-                  mPrinter.setPageRegion(472, 30, 65, 250, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Uso do Banco{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 252, Printer.FILL_BLACK, 2);
-                  y = 30 + 250;
+                //Uso Banco
+                mPrinter.setPageRegion(472, 30, 65, 250, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Uso do Banco{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 252, Printer.FILL_BLACK, 2);
+                y = 30 + 250;
 
-                  //Especie
-                  mPrinter.setPageRegion(472, y, 65, 280, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Especie{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 282, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{center}{h}{s}REAL {br}");
-                  y += 280;
+                //Especie
+                mPrinter.setPageRegion(472, y, 65, 280, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Especie{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 282, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{center}{h}{s}REAL {br}");
+                y += 280;
 
-                  //antidade Moeda
-                  mPrinter.setPageRegion(472, y, 65, 310, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Qantidade Moeda{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 312, Printer.FILL_BLACK, 2);
-                  y += 310;
+                //antidade Moeda
+                mPrinter.setPageRegion(472, y, 65, 310, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Qantidade Moeda{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 312, Printer.FILL_BLACK, 2);
+                y += 310;
 
-                  //Vlor Moeda
-                  mPrinter.setPageRegion(472, y, 65, 310, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Valor Moeda{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 312, Printer.FILL_BLACK, 2);
-                  y += 310;
+                //Vlor Moeda
+                mPrinter.setPageRegion(472, y, 65, 310, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Valor Moeda{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 312, Printer.FILL_BLACK, 2);
+                y += 310;
 
-                  //Valor Documento
-                  mPrinter.setPageRegion(472, 1178, 65, 320, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Valor Documento{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 320, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("document_value") + " {br}");
+                //Valor Documento
+                mPrinter.setPageRegion(472, 1178, 65, 320, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Valor Documento{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 320, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{right}{h}{s}" + installment.getString("document_value") + " {br}");
 
-                  //Instrucoes
-                  mPrinter.setPageRegion(282, 30, 192, 1150, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Instrucoes{br}");
-                  mPrinter.drawPageFrame(0, 0, 192, 1150, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{left}{h}{s}Apos o vencimento, cobrar juros de R$" + installment.getString("day_multa") + " por dia de atraso {br}" + "Apos " + installment.getString("due") + " cobrar multa de R$ " + installment.getString("fine_string") + "{br}" + installment.getString("protest_date") + "{br}");
+                //Instrucoes
+                mPrinter.setPageRegion(282, 30, 192, 1150, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Instrucoes{br}");
+                mPrinter.drawPageFrame(0, 0, 192, 1150, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{left}{h}{s}Apos o vencimento, cobrar juros de R$" + installment.getString("day_multa") + " por dia de atraso {br}" + "Apos " + installment.getString("due") + " cobrar multa de R$ " + installment.getString("fine_string") + "{br}" + installment.getString("protest_date") + "{br}");
 
 
-                  //Descontos / Abatimentos
-                  mPrinter.setPageRegion(409, 1178, 65, 320, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}(-)Descontos / Abatimentos{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 320, Printer.FILL_BLACK, 2);
+                //Descontos / Abatimentos
+                mPrinter.setPageRegion(409, 1178, 65, 320, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}(-)Descontos / Abatimentos{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 320, Printer.FILL_BLACK, 2);
 
-                  //Outras deducoes
-                  mPrinter.setPageRegion(348, 1178, 63, 320, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}(-)Outras Deducoes{br}");
-                  mPrinter.drawPageFrame(0, 0, 63, 320, Printer.FILL_BLACK, 2);
+                //Outras deducoes
+                mPrinter.setPageRegion(348, 1178, 63, 320, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}(-)Outras Deducoes{br}");
+                mPrinter.drawPageFrame(0, 0, 63, 320, Printer.FILL_BLACK, 2);
 
-                  //(+) Mora / Multa
-                  mPrinter.setPageRegion(283, 1178, 67, 320, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}(+)Mora / Multa{br}");
-                  mPrinter.drawPageFrame(0, 0, 67, 320, Printer.FILL_BLACK, 2);
+                //(+) Mora / Multa
+                mPrinter.setPageRegion(283, 1178, 67, 320, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}(+)Mora / Multa{br}");
+                mPrinter.drawPageFrame(0, 0, 67, 320, Printer.FILL_BLACK, 2);
 
-                  //Pagador
-                  mPrinter.setPageRegion(154, 30, 130, 1150, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}Pagador{br}");
-                  mPrinter.drawPageFrame(0, 0, 130, 1150, Printer.FILL_BLACK, 2);
-                  mPrinter.setPageXY(5, 33);
-                  mPrinter.printTaggedText("{reset}{left}{h}{s}" + installment.getString("paying_name") + " - CPF/CNPJ: " + installment.getString("document_client") + " {br}");
+                //Pagador
+                mPrinter.setPageRegion(154, 30, 130, 1150, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}Pagador{br}");
+                mPrinter.drawPageFrame(0, 0, 130, 1150, Printer.FILL_BLACK, 2);
+                mPrinter.setPageXY(5, 33);
+                mPrinter.printTaggedText("{reset}{left}{h}{s}" + installment.getString("paying_name") + " - CPF/CNPJ: " + installment.getString("document_client") + " {br}");
 
-                  //(+) Outros acréscimos
-                  mPrinter.setPageRegion(219, 1178, 65, 320, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}(+)Outros acrescimos{br}");
-                  mPrinter.drawPageFrame(0, 0, 65, 320, Printer.FILL_BLACK, 2);
+                //(+) Outros acréscimos
+                mPrinter.setPageRegion(219, 1178, 65, 320, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}(+)Outros acrescimos{br}");
+                mPrinter.drawPageFrame(0, 0, 65, 320, Printer.FILL_BLACK, 2);
 
-                  //(=) Valor Cobrado
-                  mPrinter.setPageRegion(154, 1178, 67, 320, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{left}{s}(=)Valor Cobrado{br}");
-                  mPrinter.drawPageFrame(0, 0, 67, 320, Printer.FILL_BLACK, 2);
+                //(=) Valor Cobrado
+                mPrinter.setPageRegion(154, 1178, 67, 320, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{left}{s}(=)Valor Cobrado{br}");
+                mPrinter.drawPageFrame(0, 0, 67, 320, Printer.FILL_BLACK, 2);
 
-                  mPrinter.setPageRegion(0, 30, 152, 1470, Printer.PAGE_TOP);
-                  mPrinter.setPageXY(5, 5);
-                  mPrinter.printTaggedText("{reset}{right}{s}Autenticacao Mecanica / Ficha de Compensacao{br}");
-                  mPrinter.setPageXY(30, 5);
-                  mPrinter.setBarcode(Printer.ALIGN_LEFT, false, 3, Printer.HRI_NONE, 100);
-                  if (installment.getString("barcode") != null) {
-                    mPrinter.printBarcode(Printer.BARCODE_ITF, installment.getString("barcode"));
-                  }
+                mPrinter.setPageRegion(0, 30, 152, 1470, Printer.PAGE_TOP);
+                mPrinter.setPageXY(5, 5);
+                mPrinter.printTaggedText("{reset}{right}{s}Autenticacao Mecanica / Ficha de Compensacao{br}");
+                mPrinter.setPageXY(30, 5);
+                mPrinter.setBarcode(Printer.ALIGN_LEFT, false, 3, Printer.HRI_NONE, 100);
+                if (installment.getString("barcode") != null) {
+                  mPrinter.printBarcode(Printer.BARCODE_ITF, installment.getString("barcode"));
+                }
 
-                  //REMOVER
-                  mPrinter.flush();
-                  mPrinter.printPage();
-                  //REMOVER
-                  mPrinter.feedPaper(110);
+                //REMOVER
+                mPrinter.flush();
+                mPrinter.printPage();
+                //REMOVER
+                mPrinter.feedPaper(110);
 
               }
             } catch (JSONException e) {
