@@ -872,7 +872,11 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 //REMOVER
                 // mPrinter.flush();
                 mPrinter.printPage();
-                Thread.sleep(2000);
+                try {
+                  Thread.sleep(2000); // 2000 milissegundos = 2 segundos
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 //REMOVER
                 Log.d("DATECS_DEBUG", "Linha 4");
 
@@ -1023,7 +1027,11 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 //REMOVER
                 // mPrinter.flush();
                 mPrinter.printPage();
-                Thread.sleep(2000);
+                try {
+                  Thread.sleep(2000); // 2000 milissegundos = 2 segundos
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 //REMOVER
                 Log.d("DATECS_DEBUG", "Linha 6");
 
@@ -1247,7 +1255,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 }
                 
                 mPrinter.feedPaper(110);
-                
+
                 //REMOVER
                 // mPrinter.flush();
                 Log.d("DATECS_DEBUG", "Linha 7");
