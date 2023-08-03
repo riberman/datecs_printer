@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -745,12 +746,14 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
 
               // mPrinter.reset();
               mPrinter.selectPageMode();
+              Log.d("DATECS_DEBUG", "INICIO");
               for (int j = 0; j < installmentsArray.length(); j++) {
                 //REMOVER
                 // mPrinter.selectPageMode();
                 // mPrinter.flush();
                 // mPrinter.printPage();
                 //REMOVER
+                Log.d("DATECS_DEBUG", "Linha 1");
 
                 JSONObject installment = installmentsArray.getJSONObject(j);
 
@@ -783,6 +786,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                     mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
                   }
                 }
+                Log.d("DATECS_DEBUG", "Linha 2");
                 y += 270;
 
                 //numero banco
@@ -864,11 +868,12 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 mPrinter.printTaggedText("{reset}{left}{s}Recebi(emos) o bloqueto de cobranca com as " +
                         "caracteristicas descritas neste Comprovante de Entrega{br}");
                 mPrinter.drawPageFrame(0, 0, 244, 100, Printer.FILL_BLACK, 2);
-
+                Log.d("DATECS_DEBUG", "Linha 3");
                 //REMOVER
                 // mPrinter.flush();
                 mPrinter.printPage();
                 //REMOVER
+                Log.d("DATECS_DEBUG", "Linha 4");
 
                 mPrinter.setPageRegion(0, 20, 720, 30, Printer.PAGE_LEFT);
                 mPrinter.setPageXY(155, 5);
@@ -1013,11 +1018,12 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 mPrinter.setPageXY(0, 20);
 
                 y = 0;
-
+                Log.d("DATECS_DEBUG", "Linha 5");
                 //REMOVER
                 // mPrinter.flush();
                 mPrinter.printPage();
                 //REMOVER
+                Log.d("DATECS_DEBUG", "Linha 6");
 
                 //logo
                 y += 20;
@@ -1240,12 +1246,16 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
 
                 //REMOVER
                 // mPrinter.flush();
+                Log.d("DATECS_DEBUG", "Linha 7");
                 mPrinter.printPage();
                 //REMOVER
                 mPrinter.feedPaper(110);
+                Log.d("DATECS_DEBUG", "Linha FIM");
 
               }
             } catch (JSONException e) {
+              Log.d("DATECS_DEBUG", "DEU ERRO");
+              Log.d("DATECS_DEBUG", Log.getStackTraceString(e));
               e.printStackTrace();
             }
 
