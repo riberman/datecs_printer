@@ -746,12 +746,10 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               // mPrinter.reset();
               for (int j = 0; j < installmentsArray.length(); j++) {
                 //REMOVER
-                mPrinter.printPage();
-                mPrinter.flush();
                 mPrinter.reset();
-                mPrinter.selectStandardMode();
                 mPrinter.selectPageMode();
                 mPrinter.flush();
+                mPrinter.printPage();
                 //REMOVER
 
                 JSONObject installment = installmentsArray.getJSONObject(j);
@@ -869,12 +867,8 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                   mPrinter.drawPageFrame(0, 0, 244, 100, Printer.FILL_BLACK, 2);
 
                   //REMOVER
+                  mPrinter.flush();
                   mPrinter.printPage();
-                  mPrinter.flush();
-                  mPrinter.reset();
-                  mPrinter.selectStandardMode();
-                  mPrinter.selectPageMode();
-                  mPrinter.flush();
                   //REMOVER
 
                   mPrinter.setPageRegion(0, 20, 720, 30, Printer.PAGE_LEFT);
@@ -1022,12 +1016,8 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                   y = 0;
 
                   //REMOVER
+                  mPrinter.flush();
                   mPrinter.printPage();
-                  mPrinter.flush();
-                  mPrinter.reset();
-                  mPrinter.selectStandardMode();
-                  mPrinter.selectPageMode();
-                  mPrinter.flush();
                   //REMOVER
 
                   //logo
@@ -1249,12 +1239,11 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                     mPrinter.printBarcode(Printer.BARCODE_ITF, installment.getString("barcode"));
                   }
 
+                  //REMOVER
+                  mPrinter.flush();
                   mPrinter.printPage();
-                  mPrinter.flush();
-                  mPrinter.reset();
-                  mPrinter.selectStandardMode();
+                  //REMOVER
                   mPrinter.feedPaper(110);
-                  mPrinter.flush();
 
               }
             } catch (JSONException e) {
