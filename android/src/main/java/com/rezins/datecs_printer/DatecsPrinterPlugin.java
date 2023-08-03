@@ -872,6 +872,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 //REMOVER
                 // mPrinter.flush();
                 mPrinter.printPage();
+                Thread.sleep(2000);
                 //REMOVER
                 Log.d("DATECS_DEBUG", "Linha 4");
 
@@ -1022,6 +1023,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 //REMOVER
                 // mPrinter.flush();
                 mPrinter.printPage();
+                Thread.sleep(2000);
                 //REMOVER
                 Log.d("DATECS_DEBUG", "Linha 6");
 
@@ -1243,13 +1245,15 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 if (installment.getString("barcode") != null) {
                   mPrinter.printBarcode(Printer.BARCODE_ITF, installment.getString("barcode"));
                 }
-
+                
+                mPrinter.feedPaper(110);
+                
                 //REMOVER
                 // mPrinter.flush();
                 Log.d("DATECS_DEBUG", "Linha 7");
                 mPrinter.printPage();
                 //REMOVER
-                mPrinter.feedPaper(110);
+                
                 Log.d("DATECS_DEBUG", "Linha FIM");
 
               }
