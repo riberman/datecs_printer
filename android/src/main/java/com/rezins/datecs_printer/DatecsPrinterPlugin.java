@@ -768,7 +768,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                     bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
                     bitm.recycle();
 
-                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
+                    // mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
                   }else{
                     byte[] decodedString = android.util.Base64.decode(logo, android.util.Base64.DEFAULT);
                     Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -779,7 +779,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                     bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
                     bitm.recycle();
 
-                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
+                    // mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
                   }
                 }
                 y += 270;
@@ -886,7 +886,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                     bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
                     bitm.recycle();
 
-                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
+                    // mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
                   }else{
                     byte[] decodedString = android.util.Base64.decode(logo, android.util.Base64.DEFAULT);
                     Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -897,7 +897,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                     bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
                     bitm.recycle();
 
-                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
+                    // mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
                   }
                 }
                 y += 270;
@@ -1032,7 +1032,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                     bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
                     bitm.recycle();
 
-                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
+                    // mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
                   }else{
                     byte[] decodedString = android.util.Base64.decode(logo, android.util.Base64.DEFAULT);
                     Bitmap bitm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -1043,7 +1043,7 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                     bitm.getPixels(ar, 0, wid, 0, 0, wid, heig);
                     bitm.recycle();
 
-                    mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
+                    // mPrinter.printCompressedImage(ar, wid, heig, Printer.ALIGN_LEFT, true);
                   }
                 }
                 //numero banco
