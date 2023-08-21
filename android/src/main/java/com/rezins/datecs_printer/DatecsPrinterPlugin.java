@@ -749,9 +749,9 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               Log.d("DATECS_DEBUG", "INICIO");
               for (int j = 0; j < installmentsArray.length(); j++) {
                 //REMOVER
-                printer.flush();
-                printer.reset();
-                printer.selectPageMode();
+                mPrinter.flush();
+                mPrinter.reset();
+                mPrinter.selectPageMode();
                 //REMOVER
                 Log.d("DATECS_DEBUG", "Linha 1");
 
@@ -870,12 +870,12 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 mPrinter.drawPageFrame(0, 0, 244, 100, Printer.FILL_BLACK, 2);
                 Log.d("DATECS_DEBUG", "Linha 3");
                 //REMOVER
-                printer.printPage();
-                printer.flush();
-                printer.reset();
-                printer.selectStandardMode();
-                printer.selectPageMode();
-                printer.flush();
+                mPrinter.printPage();
+                mPrinter.flush();
+                mPrinter.reset();
+                mPrinter.selectStandardMode();
+                mPrinter.selectPageMode();
+                mPrinter.flush();
                 //REMOVER
                 Log.d("DATECS_DEBUG", "Linha 4");
 
@@ -1024,12 +1024,12 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 y = 0;
                 Log.d("DATECS_DEBUG", "Linha 5");
                 //REMOVER
-                printer.printPage();
-                printer.flush();
-                printer.reset();
-                printer.selectStandardMode();
-                printer.selectPageMode();
-                printer.flush();
+                mPrinter.printPage();
+                mPrinter.flush();
+                mPrinter.reset();
+                mPrinter.selectStandardMode();
+                mPrinter.selectPageMode();
+                mPrinter.flush();
                 //REMOVER
                 Log.d("DATECS_DEBUG", "Linha 6");
 
@@ -1253,12 +1253,12 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 }
 
                 //REMOVER
-                printer.printPage();
-                printer.flush();
-                printer.reset();
-                printer.selectStandardMode();
-                printer.feedPaper(112);
-                printer.flush();
+                mPrinter.printPage();
+                mPrinter.flush();
+                mPrinter.reset();
+                mPrinter.selectStandardMode();
+                mPrinter.feedPaper(112);
+                mPrinter.flush();
                 //REMOVER
 
                 Log.d("DATECS_DEBUG", "Linha 7");
