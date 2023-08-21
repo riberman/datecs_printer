@@ -745,13 +745,13 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
               logo = data.getString("bank_logo");
 
               // mPrinter.reset();
-              mPrinter.selectPageMode();
+              // mPrinter.selectPageMode();
               Log.d("DATECS_DEBUG", "INICIO");
               for (int j = 0; j < installmentsArray.length(); j++) {
                 //REMOVER
-                // mPrinter.selectPageMode();
-                // mPrinter.flush();
-                // mPrinter.printPage();
+                printer.flush();
+                printer.reset();
+                printer.selectPageMode();
                 //REMOVER
                 Log.d("DATECS_DEBUG", "Linha 1");
 
