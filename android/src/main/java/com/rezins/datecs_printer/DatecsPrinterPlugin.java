@@ -870,13 +870,12 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 mPrinter.drawPageFrame(0, 0, 244, 100, Printer.FILL_BLACK, 2);
                 Log.d("DATECS_DEBUG", "Linha 3");
                 //REMOVER
-                mPrinter.flush();
-                mPrinter.printPage();
-                try {
-                  Thread.sleep(5000); // 5000 milissegundos = 5 segundos
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                printer.printPage();
+                printer.flush();
+                printer.reset();
+                printer.selectStandardMode();
+                printer.selectPageMode();
+                printer.flush();
                 //REMOVER
                 Log.d("DATECS_DEBUG", "Linha 4");
 
@@ -1025,13 +1024,12 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 y = 0;
                 Log.d("DATECS_DEBUG", "Linha 5");
                 //REMOVER
-                mPrinter.flush();
-                mPrinter.printPage();
-                try {
-                  Thread.sleep(5000); // 5000 milissegundos = 5 segundos
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                printer.printPage();
+                printer.flush();
+                printer.reset();
+                printer.selectStandardMode();
+                printer.selectPageMode();
+                printer.flush();
                 //REMOVER
                 Log.d("DATECS_DEBUG", "Linha 6");
 
@@ -1253,14 +1251,17 @@ public class DatecsPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 if (installment.getString("barcode") != null) {
                   mPrinter.printBarcode(Printer.BARCODE_ITF, installment.getString("barcode"));
                 }
-                
-                mPrinter.feedPaper(110);
 
                 //REMOVER
-                mPrinter.flush();
-                Log.d("DATECS_DEBUG", "Linha 7");
-                mPrinter.printPage();
+                printer.printPage();
+                printer.flush();
+                printer.reset();
+                printer.selectStandardMode();
+                printer.feedPaper(112);
+                printer.flush();
                 //REMOVER
+
+                Log.d("DATECS_DEBUG", "Linha 7");
                 
                 Log.d("DATECS_DEBUG", "Linha FIM");
 
